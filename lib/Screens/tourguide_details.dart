@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:guru/core/component/form_for_tourist.dart';
+import 'package:guru/core/component/form_for_register_tourist.dart';
 import 'package:guru/data/models/tour_guide/TourGuideModel.dart';
 
 class TourGuideDetail extends StatefulWidget {
@@ -64,7 +64,7 @@ class _TourGuideDetailState extends State<TourGuideDetail> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return FormForTourist(
+                      return FormForRegisterTourist(
                           tourGuideName: widget.tourGuide.name);
                     },
                   ),

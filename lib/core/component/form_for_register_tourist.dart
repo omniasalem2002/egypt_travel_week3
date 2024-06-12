@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guru/core/component/custom_text_form_field.dart';
+import 'package:guru/core/component/form_for_log_in_tourist.dart';
 import 'package:guru/core/component/show_list_payment_dialog.dart';
 import 'package:guru/core/utils/colors_app.dart';
 import 'package:guru/core/utils/custom_text_button.dart';
@@ -9,9 +10,9 @@ import 'package:guru/logic/tourist/add_tourist_cubit.dart';
 import 'package:guru/logic/tourist/add_tourist_state.dart';
 import 'package:lottie/lottie.dart';
 
-class FormForTourist extends StatelessWidget {
+class FormForRegisterTourist extends StatelessWidget {
   final String tourGuideName;
-  const FormForTourist({super.key,required this.tourGuideName});
+  const FormForRegisterTourist({super.key,required this.tourGuideName});
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +94,22 @@ class FormForTourist extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 20),
+                       /* CustomTextFormField(
+                          controller: context
+                              .read<AddTouristCubit>()
+                              .emailController,
+                          hintText: "Enter Your Email",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
+                        ),*/
                         CustomTextFormField(
                           controller: context.read<AddTouristCubit>().touristPhoneNumberController,
                           hintText: "Enter Your Phone Number",
@@ -111,60 +128,6 @@ class FormForTourist extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 20),
-                        CustomTextFormField(
-                          controller: context.read<AddTouristCubit>().countryController,
-                          hintText: "Enter City",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter City';
-                            }
-                            if (value.length < 3) {
-                              return 'City must be at least 3 characters long';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextFormField(
-                          controller: context.read<AddTouristCubit>().selectedPaymentController,
-                          hintText: 'Select payment',
-                          isEnabled: false,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: ColorsApp.primaryColor,
-                              width: 1.3,
-                            ),
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          suffixIcon: const Icon(
-                            Icons.arrow_drop_down,
-                            size: 20,
-                            color: ColorsApp.primaryColor,
-                          ),
-                          function: () {
-                            showListPaymentDialog(context, size);
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please select a type of payment you want';
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        CustomTextFormField(
-                          controller: context.read<AddTouristCubit>().placesWantToVisitController,
-                          hintText: "Enter Places Want To Visit In Egypt",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Places Want To Visit In Egypt';
-                            }
-                            if (value.length < 3) {
-                              return 'Places must be at least 3 characters long';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.all(3),
                           child: AppTextButton(
@@ -178,6 +141,20 @@ class FormForTourist extends StatelessWidget {
                             },
                           ),
                         ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return FormForLogInTourist(
+                                  );
+                                },
+                              ),
+                            );
+                          },
+
+                          child: const  Text("Log In"))
                       ],
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:guru/Screens/country_city_selection.dart';
 import 'package:guru/Screens/login_view.dart';
 import 'package:guru/Screens/profile.dart';
 import 'package:guru/Screens/tour_guides.dart';
+import 'package:guru/core/component/form_for_register_tourist.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -205,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const LoginView();
+                      return const FormForRegisterTourist(tourGuideName: "omnia");
                     },
                   ),
                 );

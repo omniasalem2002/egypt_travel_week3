@@ -1,26 +1,18 @@
 
-class Touristmodel{
+class TourisModel{
   final String name;
   final String phoneNumber;
-  final String selectedPayment;
-  final String country;
-  final String placesWantToVisit;
 
-  Touristmodel({
+
+  TourisModel({
     required this.name,
     required this.phoneNumber,
-    required this.selectedPayment,
-    required this.country,
-    required this.placesWantToVisit,
   });
 
-  factory Touristmodel.fromJson(Map<String, dynamic> json) {
-    return Touristmodel(
+  factory TourisModel.fromJson(Map<String, dynamic> json) {
+    return TourisModel(
       name: json['name'],
       phoneNumber: json['phoneNumber'],
-      selectedPayment: json['selectedPayment'],
-      country: json['country'],
-      placesWantToVisit: json['placesWantToVisit'],
     );
   }
 
@@ -28,9 +20,6 @@ class Touristmodel{
     return {
       'name': name,
       'phoneNumber': phoneNumber,
-      'selectedPayment': selectedPayment,
-      'Country': country,
-      'PlacesWantToVisit': placesWantToVisit,
     };
   }
 }

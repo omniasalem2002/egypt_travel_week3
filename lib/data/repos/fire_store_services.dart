@@ -15,7 +15,7 @@ class FireStoreServices {
   }
   Future<void> addTourGuide(TourGuideRequestBody tourGuide) async {
     try {
-      await _firestore.collection(_collectionName).add(tourGuide.toJson());
+      await _firestore.collection(_collectionName).doc('tourGuideId').set(tourGuide.toJson());
     } catch (e) {
       throw Exception('Failed to add tour guide: $e');
     }

@@ -13,7 +13,7 @@ class FireStoreServicesForTourist {
 
     return querySnapshot.docs.isNotEmpty;
   }*/
-  Future<void> addTourist(Touristmodel tourist) async {
+  Future<void> addTourist(TourisModel tourist) async {
     try {
       await _firestore.collection(_collectionName).add(tourist.toJson());
     } catch (e) {
