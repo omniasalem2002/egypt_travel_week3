@@ -15,11 +15,7 @@ class AddTouristCubit extends Cubit<TouristState> {
 
   TextEditingController touristNameController = TextEditingController();
   TextEditingController touristPhoneNumberController = TextEditingController();
-  TextEditingController selectedPaymentController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
-  TextEditingController placesWantToVisitController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

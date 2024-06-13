@@ -20,8 +20,8 @@ showListPaymentDialog(BuildContext ctxt, Size size) {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  BlocProvider.of<AddTouristCubit>(ctxt).selectedPaymentController.text = _paymentTypes[index];
-                  Navigator.pop(context);
+                 /* BlocProvider.of<AddTouristCubit>(ctxt).selectedPaymentController.text = _paymentTypes[index];
+                  Navigator.pop(context);*/
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

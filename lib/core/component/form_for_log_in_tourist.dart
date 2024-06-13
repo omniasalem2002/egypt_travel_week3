@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:guru/logic/phone_authentication/phone_auth_cubit.dart';
-
 
 class FormForLogInTourist extends StatelessWidget {
   final TextEditingController _phoneController = TextEditingController();
@@ -11,7 +11,7 @@ class FormForLogInTourist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PhoneAuthCubit(FirebaseAuth.instance),
+      create: (context) => PhoneAuthCubit(FirebaseAuth.instance, FirebaseFirestore.instance),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Phone Authentication'),
@@ -22,6 +22,7 @@ class FormForLogInTourist extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Phone number verified')),
               );
+              // Navigate to home screen or other page
             } else if (state is PhoneAuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message!)),
@@ -52,12 +53,22 @@ class FormForLogInTourist extends StatelessWidget {
           TextField(
             controller: _phoneController,
             decoration: InputDecoration(labelText: 'Phone number'),
+            keyboardType: TextInputType.phone,
           ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              final phone = _phoneController.text.trim();
-              context.read<PhoneAuthCubit>().sendOTP(phone);
+            onPressed: () async {
+              final phone = '+2${_phoneController.text.trim()}';
+              final exists = await context.read<PhoneAuthCubit>().checkTouristExists(phone);
+
+              if (exists) {
+                context.read<PhoneAuthCubit>().sendOTP(phone);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Phone number is not registered. Please register first.')),
+                );
+                // Navigate to registration screen or prompt registration dialog
+              }
             },
             child: Text('Send OTP'),
           ),
@@ -74,6 +85,7 @@ class FormForLogInTourist extends StatelessWidget {
           TextField(
             controller: _codeController,
             decoration: InputDecoration(labelText: 'SMS Code'),
+            keyboardType: TextInputType.number,
           ),
           SizedBox(height: 16),
           ElevatedButton(

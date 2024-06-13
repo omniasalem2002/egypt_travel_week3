@@ -117,13 +117,13 @@ class FormForRegisterTourist extends StatelessWidget {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your phone number';
                             }
-                            if (value.length != 10) {
+                           /* if (value.length != 10) {
                               // Adjust length as per your requirement
                               return 'Phone number must be exactly 10 digits';
-                            }
-                            if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            }*/
+                          /*  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                               return 'Phone number must contain only digits';
-                            }
+                            }*/
                             return null;
                           },
                         ),
