@@ -40,25 +40,6 @@ class _LoginViewState extends State<LoginView> {
       });
     }
   }
-
-  void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-        context.read<TourGuideCubit>().birthDateController.text =
-            '${pickedDate.toLocal()}'.split(' ')[0];
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -251,82 +232,6 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               const SizedBox(height: 20),
                               CustomTextFormField(
-                                controller: context.read<TourGuideCubit>().birthDateController,
-                                hintText: 'Birthdate',
-                                isEnabled: false,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: ColorsApp.primaryColor,
-                                    width: 1.3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                suffixIcon: const Icon(
-                                  Icons.calendar_today,
-                                  size: 20,
-                                  color: ColorsApp.primaryColor,
-                                ),
-                                function: _presentDatePicker, // You can keep this empty or provide a dummy function
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your birthdate';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              /*    DropdownButtonFormField<String>(
-              value: context.read<TourGuideCubit>().selectedPaymentController.text,
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: ColorsApp.moreLightGrey,
-                labelText: 'Select Payment Type',
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: ColorsApp.darkPrimary, width: 1.3),
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(0.0)),
-                ),
-              ),
-              items: _paymentTypes.map((String type) {
-                return DropdownMenuItem(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedPaymentType = value;
-                });
-              },
-            ),*/
-                              const SizedBox(height: 20),
-                              /* DropdownButtonFormField<String>(
-              value: context.read<TourGuideCubit>().selectedCityController.text,
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: ColorsApp.moreLightGrey,
-                labelText: 'Select city Type',
-                hintStyle: TextStyle(color: ColorsApp.darkPrimary),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: ColorsApp.darkPrimary, width: 1.3),
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(0.0)),
-                ),
-              ),
-              items: _cities.map((String type) {
-                return DropdownMenuItem(
-                  value: type,
-                  child: Text(type),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  // Check if the value is non-null before assigning
-                  if (value != null) {
-                    context.read<TourGuideCubit>().selectedCityController.text = value;
-                  }
-                });
-              },
-            ),*/
-                              CustomTextFormField(
                                 controller: context
                                     .read<TourGuideCubit>()
                                     .selectedCityController,
@@ -354,33 +259,22 @@ class _LoginViewState extends State<LoginView> {
                                 },
                               ),
                               const SizedBox(height: 20),
-                             /* CustomTextFormField(
-                                controller: context
-                                    .read<TourGuideCubit>()
-                                    .selectedPaymentController,
-                                hintText: 'Select payment',
-                                isEnabled: false,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: ColorsApp.primaryColor,
-                                    width: 1.3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                suffixIcon: const Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 20,
-                                  color: ColorsApp.primaryColor,
-                                ),
-                                function: () {
-                                  showListPaymentDialog(context, size);
-                                },
+                              CustomTextFormField(
+                                controller: context.read<TourGuideCubit>().tourGuidePhoneNumberController,
+                                hintText: "Enter Your Phone Number",
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please select a type of payment you want';
+                                    return 'Please enter your phone number';
                                   }
+
+                                  // Check if the phone number starts with '01' and has exactly 11 digits in total
+                                  if (!RegExp(r'^01[0-9]{9}$').hasMatch(value)) {
+                                    return 'Please enter a valid Egyptian phone number starting with 01';
+                                  }
+
+                                  return null;
                                 },
-                              ),*/
+                              ),
                               const SizedBox(height: 20),
                               context.read<TourGuideCubit>().image != null
                                   ? Image.file(
@@ -398,56 +292,6 @@ class _LoginViewState extends State<LoginView> {
                                       TextStyle(color: ColorsApp.darkPrimary),
                                 ),
                                 onPressed: _pickImage,
-                              ),
-                              const SizedBox(height: 20),
-                              CustomTextFormField(
-                                controller: context
-                                    .read<TourGuideCubit>()
-                                    .emailController,
-                                hintText: "Enter Your Email",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
-                                  }
-                                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid email address';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              CustomTextFormField(
-                                controller: context
-                                    .read<TourGuideCubit>()
-                                    .personalWebsiteController,
-                                hintText: "Enter Your Personal Website",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your personal website';
-                                  }
-                                  final urlPattern =
-                                      r'^(http[s]?:\/\/)?([^\s(["<,>]*\.)*[^\s[",><]*\.[^\s[",><]*$';
-                                  final urlRegExp = RegExp(urlPattern);
-                                  if (!urlRegExp.hasMatch(value)) {
-                                    return 'Please enter a valid URL';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              CustomTextFormField(
-                                controller: context
-                                    .read<TourGuideCubit>()
-                                    .professionalSummaryController,
-                                hintText: "Enter Your Professional Summary",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your professional summary';
-                                  }
-                                  return null;
-                                },
-                                maxLines: 5,
                               ),
                               const SizedBox(height: 20),
                               CustomTextFormField(

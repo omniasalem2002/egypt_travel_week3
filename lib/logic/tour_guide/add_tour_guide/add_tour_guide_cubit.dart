@@ -17,13 +17,10 @@ class TourGuideCubit extends Cubit<TourGuideState> {
 
   TextEditingController tourGuideNameController = TextEditingController();
   TextEditingController tourGuidePhoneNumberController = TextEditingController();
-  TextEditingController birthDateController = TextEditingController();
-  TextEditingController selectedCityController = TextEditingController();
   File? image ;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController personalWebsiteController = TextEditingController();
-  TextEditingController professionalSummaryController = TextEditingController();
   TextEditingController workExperiencesController = TextEditingController();
+
+  TextEditingController selectedCityController = TextEditingController();
 
 
 
@@ -42,11 +39,10 @@ class TourGuideCubit extends Cubit<TourGuideState> {
 
      final response = await _fireStoreService.addTourGuide(TourGuideRequestBody(name:
      tourGuideNameController.text,
-         phoneNumber: tourGuidePhoneNumberController.text, birthDate: birthDateController.text
-         , selectedCity: selectedCityController.text, image: imageurl!,
-         email: emailController.text, personalWebsite:
-         personalWebsiteController.text, professionalSummary: professionalSummaryController.text,
-         workExperiences: workExperiencesController.text)
+         phoneNumber: tourGuidePhoneNumberController.text,
+         image: imageurl!,
+         selectedCity: selectedCityController.text,
+         workExperiences: workExperiencesController.text),
      );
      emit(TourGuideSuccess());
          }

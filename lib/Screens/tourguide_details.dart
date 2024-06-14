@@ -65,7 +65,9 @@ class _TourGuideDetailState extends State<TourGuideDetail> {
                   MaterialPageRoute(
                     builder: (context) {
                       return FormForRegisterTourist(
-                          tourGuideName: widget.tourGuide.name);
+                          tourGuideName: widget.tourGuide.name,
+                        tourGuidePhoneNumber: widget.tourGuide.phoneNumber,
+                      );
                     },
                   ),
                 );

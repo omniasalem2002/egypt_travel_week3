@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guru/Screens/contact_tour_with_phone.dart';
 import 'package:guru/core/component/custom_text_form_field.dart';
-import 'package:guru/core/component/form_for_log_in_tourist.dart';
-import 'package:guru/core/component/show_list_payment_dialog.dart';
 import 'package:guru/core/utils/colors_app.dart';
 import 'package:guru/core/utils/custom_text_button.dart';
 import 'package:guru/core/utils/styles.dart';
@@ -12,7 +11,9 @@ import 'package:lottie/lottie.dart';
 
 class FormForRegisterTourist extends StatelessWidget {
   final String tourGuideName;
-  const FormForRegisterTourist({super.key,required this.tourGuideName});
+  final String tourGuidePhoneNumber;
+
+  const FormForRegisterTourist({super.key,required this.tourGuideName,required this.tourGuidePhoneNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,18 @@ class FormForRegisterTourist extends StatelessWidget {
             } else if (state is TouristSuccess) {
               // Hide loading indicator and show success message
               Navigator.pop(context); // To dismiss the loading dialog
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Tourist added successfully!')),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ContactTourWithPhone(
+                      tourGuideName: tourGuideName ,tourGuidePhoneNumber: tourGuidePhoneNumber,
+
+                    );
+                  },
+                ),
               );
+
             } else if (state is TouristFailure) {
               // Hide loading indicator and show error message
               Navigator.pop(context); // To dismiss the loading dialog
@@ -94,22 +104,7 @@ class FormForRegisterTourist extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 20),
-                       /* CustomTextFormField(
-                          controller: context
-                              .read<AddTouristCubit>()
-                              .emailController,
-                          hintText: "Enter Your Email",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                .hasMatch(value)) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
-                        ),*/
+
                         CustomTextFormField(
                           controller: context.read<AddTouristCubit>().touristPhoneNumberController,
                           hintText: "Enter Your Phone Number",
@@ -117,13 +112,12 @@ class FormForRegisterTourist extends StatelessWidget {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your phone number';
                             }
-                           /* if (value.length != 10) {
-                              // Adjust length as per your requirement
-                              return 'Phone number must be exactly 10 digits';
-                            }*/
-                          /*  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                              return 'Phone number must contain only digits';
-                            }*/
+
+                            // Check if the phone number starts with '01' and has exactly 11 digits in total
+                            if (!RegExp(r'^01[0-9]{9}$').hasMatch(value)) {
+                              return 'Please enter a valid Egyptian phone number starting with 01';
+                            }
+
                             return null;
                           },
                         ),
@@ -134,27 +128,13 @@ class FormForRegisterTourist extends StatelessWidget {
                             buttonText: 'Create',
                             textStyle: Styles.font14LightGreyRegular(context),
                             backgroundColor: ColorsApp.darkPrimary,
-                            onPressed: () {
+                            onPressed: ()  {
                               if (context.read<AddTouristCubit>().formKey.currentState!.validate()) {
                                 context.read<AddTouristCubit>().addTourist();
                               }
                             },
                           ),
                         ),
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return FormForLogInTourist(
-                                  );
-                                },
-                              ),
-                            );
-                          },
-
-                          child: const  Text("Log In"))
                       ],
                     ),
                   ),

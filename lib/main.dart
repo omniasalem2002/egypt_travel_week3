@@ -1,13 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guru/Screens/login_view.dart';
 import 'package:guru/data/repos/fire_store_services.dart';
 import 'package:guru/data/repos/fire_store_services_for_tourist.dart';
 import 'package:guru/logic/tour_guide/add_tour_guide/add_tour_guide_cubit.dart';
 import 'package:guru/logic/tourist/add_tourist_cubit.dart';
 import 'package:guru/splash.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fireStoreService = FireStoreServices();
-    final fireStoreServicesForTourist = FireStoreServicesForTourist(); // Corrected variable name
+    final fireStoreServicesForTourist = FireStoreServicesForTourist();
 
 
     return MultiBlocProvider(
@@ -37,9 +35,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TourGuideCubit(fireStoreService),
         ),
+
         BlocProvider(
           create: (context) => AddTouristCubit(fireStoreServicesForTourist),
-        )
+        ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
